@@ -56,5 +56,21 @@ let apressBooks = [{
         }]
     }];
 
-console.log('cool', arrayUtils.concatAll(arrayUtils.map(apressBooks, (book) => book.bookDetails)));
+// console.log('cool', arrayUtils.filter(arrayUtils.concatAll(arrayUtils.map(apressBooks, (book) => book.bookDetails))), (book) => book.rating[0] >= 4.5);
+
+const mapped = arrayUtils.map(apressBooks, (book) => book.bookDetails);
+const concatted = arrayUtils.concatAll(mapped);
+const filtered = arrayUtils.filter(concatted, (book) => book.rating[0] > 4);
+
+const reduced = arrayUtils.reduce(filtered, (acc, book) => {
+    let goodReviews = book.reviews[0] !== undefined ? book.reviews[0].good : 0;
+    let excellentReviews = book.reviews[0] !== undefined ? book.reviews[0].excellent : 0;
+    return {
+        good: acc.good + goodReviews,
+        excellent: acc.excellent + excellentReviews
+    };
+}, {good: 0, excellent: 0});
+
+console.log('reduced', reduced);
+
 
